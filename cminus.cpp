@@ -30,6 +30,13 @@ int main(int argc, char * argv[])
 	fprintf(listing, "\nCMINUS COMPILATION: %s\n", pgm);
 #if NO_PARSE
 	while (getToken() != ENDFILE);
+#else
+	syntaxTree = parse();
+	if (TraceParse)
+	{
+		fprintf(listing, "\nSyntax tree:\n");
+		printTree(syntaxTree);
+	}
 #endif
 	int end;
 	cin >> end;

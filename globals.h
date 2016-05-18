@@ -10,10 +10,9 @@
 #include<iostream>
 #include<string>
 
-
 #define MAXRESERVED 6
 
-typedef enum TokenType
+typedef enum 
 {
 	ENDFILE, ERROR,
 	/* reserved words */
@@ -25,7 +24,7 @@ typedef enum TokenType
 	GT, GE, EQ, UEQ, ASSIGN, SEMI, COMMA, 
 	LPAREN, RPAREN, LBARCK, RBARCK, 
 	LBRACE, RBRACE, LCOMME, RCOMME
-};
+} TokenType;
 
 extern FILE* source;	/* source code text file */
 extern FILE* listing;	/* listing output text file */
@@ -37,7 +36,7 @@ extern int lineno;		/* source line number for listing */
 typedef enum NodeKind {StmtK, ExpK};
 typedef enum StmtKind
 {
-	IfK, RepeatK, AssignK, ReadK, WriteK
+	IfK, IterK, AssignK, ReturnK
 };
 typedef enum ExpKind {OpK, ConstK, IdK};
 
@@ -83,7 +82,7 @@ extern bool TraceAnalyze;
 // write the TM CODE FILE AS CODE IS GENERATED
 extern bool TraceCode;
 
-// prevents futher passes if an error occurs
+// prevents further passes if an error occurs
 extern bool Error;
 
 #endif // !_GLOBALS_H_

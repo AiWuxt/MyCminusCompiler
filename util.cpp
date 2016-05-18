@@ -172,5 +172,57 @@ static void printSpaces(void)
 	listing file using indentation to indicate subtrees*/
 void printTree(TreeNode *tree)
 {
-
+	INDENT;
+	while (tree != NULL)
+	{
+		printSpaces();
+		if (tree->nodekind == StmtK)
+		{
+			switch (tree->kind.stmt)
+			{
+			case IfK:
+				fprintf(listing, "If\n");
+				break;
+			case IterK:
+				fprintf(listing, "While\n");
+				break;
+			case AssignK:
+				fprintf(listing, "Assign to: %s\n", tree->attr.name);
+				break;
+			case ReturnK:
+				fprintf(listing, "Return\n");
+				break;
+			default:
+				fprintf(listing, "Unknown ExpNode kind\n");
+				break;
+			}
+		}
+		else if (tree->nodekind == ExpK)
+		{
+			switch (tree->kind.exp)
+			{
+			case OpK:
+				fprintf(listing, "Op: ");
+				printToken(tree->attr.op, "\0");
+				break;
+			case ConstK:
+				fprintf(listing, "const: %d\n", tree->attr.val);
+				break;
+			case IdK:
+				fprintf(listing, "Id: %s\n", tree->attr.name);
+				break;
+			default:
+				fprintf(listing, "Unknown node kind\n");
+				break;
+			}
+		}
+		else
+		{
+			fprintf(listing, "Unknown node kind\n");
+		}
+		for (int i = 0; i < MAXCHILDREN; i++)
+			printTree(tree->child[i]);
+		tree = tree->sibling;
+	}
+	UNINDENT;
 }
