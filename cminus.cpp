@@ -8,24 +8,31 @@
 using namespace std;
 #include "cminus.h"
 
-int main()
+int main(int argc, char * argv[])
 {
-	char line[ArSize] = {};
-	ifstream fin;
-	fin.open("test.cm");
-	int count = 1;
-	bool isCommentLine = false;
-	while (fin.getline(line, ArSize))
+	TreeNode * syntaxTree;
+	char pgm[20];
+	if (argc != 2)
 	{
-		cout << "--------------------------" << endl;
-		cout << "The " << count << " line: " << endl;
-		cout << line << endl;
-		cout << "--------------------------" << endl;
-		Scanner(line, isCommentLine);
-		count++;
+		fprintf(stderr, "usage: %s <filename>\n", argv[0]);
+		exit(1);
 	}
-	int a;
-	cin >> a;
+	strcpy(pgm, argv[1]);
+	if (strchr(pgm, '.') == NULL)
+		strcat(pgm, ".cm");
+	source = fopen(pgm, "r");
+	if (source == NULL)
+	{
+		fprintf(stderr, "File %s not found\n", pgm);
+		exit(1);
+	}
+	listing = stdout;
+	fprintf(listing, "\nCMINUS COMPILATION: %s\n", pgm);
+#if NO_PARSE
+	while (getToken() != ENDFILE);
+#endif
+	int end;
+	cin >> end;
 	return 0;
 }
 
