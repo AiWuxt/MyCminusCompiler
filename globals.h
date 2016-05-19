@@ -36,12 +36,12 @@ extern int lineno;		/* source line number for listing */
 typedef enum NodeKind {StmtK, ExpK};
 typedef enum StmtKind
 {
-	IfK, IterK, AssignK, ReturnK
+	CompoundK, ExpessionK, SelectionK, IterationK, ReturnK
 };
 typedef enum ExpKind {OpK, ConstK, IdK};
 
 /* ExpType is used for type checking */
-typedef enum ExpType {Void, Integer, Boolean};
+typedef enum ExpType {Void, Int};
 
 #define MAXCHILDREN 3
 

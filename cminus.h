@@ -14,7 +14,7 @@
 #pragma warning(disable:4996)
 
 /* set NO_PARSE to true to get a scanner-only compiler */
-#define NO_PARSE true
+#define NO_PARSE false
 
 /* set NO_ANALYZE to true to get a parser-only compiler */
 #define NO_ANALYZE false

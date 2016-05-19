@@ -180,14 +180,17 @@ void printTree(TreeNode *tree)
 		{
 			switch (tree->kind.stmt)
 			{
-			case IfK:
-				fprintf(listing, "If\n");
+			case SelectionK:
+				fprintf(listing, "Selection\n");
 				break;
-			case IterK:
+			case CompoundK:
+				fprintf(listing, "Compound\n");
+				break;
+			case ExpessionK:
+				fprintf(listing, "Expession\n");
+				break;
+			case IterationK:
 				fprintf(listing, "While\n");
-				break;
-			case AssignK:
-				fprintf(listing, "Assign to: %s\n", tree->attr.name);
 				break;
 			case ReturnK:
 				fprintf(listing, "Return\n");

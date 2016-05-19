@@ -144,6 +144,7 @@ TokenType getToken(void)
 					currentToken = RBRACE;
 					break;
 				default:
+					currentToken = ERROR;
 					break;
 				}
 			}
