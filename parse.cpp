@@ -127,7 +127,7 @@ TreeNode * var_declaration(void)
 	if ((token == LBARCK) && (t != NULL))
 	{
 		match(LBARCK);
-		TreeNode * p = newExpNode(IdK);
+		TreeNode * p = newExpNode(ConstK);
 		if ((t != NULL) && (token == NUM))
 			p->attr.val = atoi(tokenString);
 		t->child[0] = p;
