@@ -195,6 +195,36 @@ void printTree(TreeNode *tree)
 			case ReturnK:
 				fprintf(listing, "Return\n");
 				break;
+			case DecK:
+				fprintf(listing, "Declaration: %s\n", EXPTYPE[tree->type]);
+				break;
+			case CallK:
+				fprintf(listing, "Call\n");
+				break;
+			case VarDecK:
+				fprintf(listing, "Var_Declaration\n");
+				break;
+			case FunDecK:
+				fprintf(listing, "Fun_Declaration\n");
+				break;
+			case ParamK:
+				fprintf(listing, "Param: %s\n", EXPTYPE[tree->type]);
+				break;
+			case ParamsK:
+				fprintf(listing, "Params\n");
+				break;
+			case ArgsK:
+				fprintf(listing, "Args\n");
+				break;
+			case ArgK:
+				fprintf(listing, "Arg\n");
+				break;
+			case LocDecK:
+				fprintf(listing, "Local_declarations\n");
+				break;
+			case StatemsK:
+				fprintf(listing, "Statemtnt_list\n");
+				break;
 			default:
 				fprintf(listing, "Unknown ExpNode kind\n");
 				break;
