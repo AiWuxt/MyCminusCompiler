@@ -202,7 +202,7 @@ void printTree(TreeNode *tree)
 				fprintf(listing, "Call\n");
 				break;
 			case VarDecK:
-				fprintf(listing, "Var_Declaration\n");
+				fprintf(listing, "Var_Declaration: %s\n", EXPTYPE[tree->type]);
 				break;
 			case FunDecK:
 				fprintf(listing, "Fun_Declaration\n");

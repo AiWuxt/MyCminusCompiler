@@ -47,7 +47,7 @@ typedef enum ExpType {Void, Integer};
 
 static const char * EXPTYPE[] = { "Void", "Int" };
 
-#define MAXCHILDREN 3
+#define MAXCHILDREN 5
 
 typedef struct treeNode
 {

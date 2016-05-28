@@ -10,6 +10,7 @@
 
 // holds current token
 static TokenType token;
+static TokenType lastToken;
 
 /* function prototypes for recursive calls */
 static TreeNode * program(void);
@@ -53,7 +54,10 @@ static void syntaxError(char * message)
 static void match(TokenType expected)
 {
 	if (token == expected)
+	{
+		lastToken = token;
 		token = getToken();
+	}
 	else
 	{
 		syntaxError("unexpected token -> ");
@@ -106,12 +110,14 @@ TreeNode * declaration(void)
 		else
 			t->type = Void;
 		match(token);
+		
 		TreeNode * p = newExpNode(IdK);
 		if ((p != NULL) && (token == ID))
 		{
 			p->attr.name = copyString(tokenString);
 			t->child[0] = p;
 		}
+		
 		match(ID);
 		if (token == LPAREN)
 			t->child[1] = fun_declaration();
@@ -123,14 +129,23 @@ TreeNode * declaration(void)
 
 TreeNode * var_declaration(void)
 {
-	TreeNode * t = newStmtNode(VarDecK);
-	if ((token == LBARCK) && (t != NULL))
+	TreeNode * t = NULL;
+	/*if (lastToken = ID)
+	{
+		TreeNode * p = newExpNode(IdK);
+		if (p != NULL)
+		{
+			p->attr.name = copyString(tokenString);
+			t->child[0] = p;
+		}
+	}*/
+	if ((token == LBARCK))
 	{
 		match(LBARCK);
 		TreeNode * p = newExpNode(ConstK);
-		if ((t != NULL) && (token == NUM))
+		if ((p != NULL) && (token == NUM))
 			p->attr.val = atoi(tokenString);
-		t->child[0] = p;
+		t = p;
 		match(NUM);
 		match(RBARCK);
 	}
@@ -143,6 +158,17 @@ TreeNode * fun_declaration(void)
 	TreeNode * t = newStmtNode(FunDecK);
 	/*if (t != NULL)
 		t->attr.name = copyString(tokenString);*/
+	/*
+	if (lastToken = ID)
+	{
+		TreeNode * p = newExpNode(IdK);
+		if (p != NULL)
+		{
+			p->attr.name = copyString(tokenString);
+			t->child[0] = p;
+		}
+	}
+	*/
 	match(LPAREN);
 	t->child[0] = params();
 	match(RPAREN);
@@ -197,6 +223,12 @@ TreeNode * param(void)
 		if (token == LBARCK)
 		{
 			match(LBARCK);
+			p = newExpNode(ConstK);
+			if (p != NULL)
+			{
+				p->attr.val = NULL;
+				t->child[1] = p;
+			}
 			match(RBARCK);
 		}
 	}
@@ -222,16 +254,17 @@ TreeNode * local_declarations(void)
 	int i = 0;
 	while ((token == INT) || (token == VOID))
 	{
+		TreeNode * p = newStmtNode(VarDecK);
 		if (token == INT)
-			t->type = Integer;
+			p->type = Integer;
 		else
-			t->type = Void;
+			p->type = Void;
 		match(token);
-		TreeNode * p = newExpNode(IdK);
-		if (p!=NULL && token == ID)
+		TreeNode * q = newExpNode(IdK);
+		if (q!=NULL && token == ID)
 		{
-			p->attr.name = copyString(tokenString);
-			t->child[i++] = p;
+			q->attr.name = copyString(tokenString);
+			p->child[0] = q;
 			match(ID);
 		}
 		else
@@ -240,7 +273,19 @@ TreeNode * local_declarations(void)
 			printToken(token, tokenString);
 			token = getToken();
 		}
-		t->child[i++] = var_declaration();
+		if ((token == LBARCK))
+		{
+			match(LBARCK);
+			TreeNode * r = newExpNode(ConstK);
+			if ((r != NULL) && (token == NUM))
+				r->attr.val = atoi(tokenString);
+			p->child[1] = r;
+			match(NUM);
+			match(RBARCK);
+		}
+		match(SEMI);
+		//p->child[1] = var_declaration();
+		t->child[i++] = p;
 	}
 	return t;
 }
