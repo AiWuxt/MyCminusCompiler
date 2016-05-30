@@ -32,7 +32,7 @@ int main(int argc, char * argv[])
 	while (getToken() != ENDFILE);
 #else
 	syntaxTree = parse();
-	if (TraceParse)
+	if (TraceParse && !Error)
 	{
 		fprintf(listing, "\nSyntax tree:\n");
 		printTree(syntaxTree);
