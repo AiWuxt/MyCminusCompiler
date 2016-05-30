@@ -17,7 +17,7 @@ void printToken(TokenType token, const char * tokenString)
 		fprintf(listing, "EOF\n");
 		break;
 	case ERROR:
-		fprintf(listing, "ERROR: %s\n", tokenString);
+		fprintf(listing, "LEXICAL ERROR: %s\n", tokenString);
 		break;
 	case IF:
 	case ELSE:
@@ -205,7 +205,7 @@ void printTree(TreeNode *tree)
 				fprintf(listing, "Var_Declaration: %s\n", EXPTYPE[tree->type]);
 				break;
 			case FunDecK:
-				fprintf(listing, "Fun_Declaration\n");
+				fprintf(listing, "Fun_Declaration: %s\n", EXPTYPE[tree->type]);
 				break;
 			case ParamK:
 				fprintf(listing, "Param: %s\n", EXPTYPE[tree->type]);
