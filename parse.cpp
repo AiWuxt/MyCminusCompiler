@@ -78,9 +78,14 @@ TreeNode * declaration_list(void)
 	TreeNode * p = t;
 	while ((token!=INT) && (token!=VOID) && (token!=ENDFILE))
 	{
-		token = getToken();
 		if (token == ENDFILE)
+		{
+			return NULL;
 			break;
+		}	
+		syntaxError("unexpected token -> ");
+		printToken(token, tokenString);
+		token = getToken();
 	}
 	while ((token==INT) || (token==VOID))
 	{
@@ -293,9 +298,15 @@ TreeNode * local_declarations(void)
 TreeNode * statement_list(void)
 {
 	TreeNode * t = newStmtNode(StatemsK);
+	//TreeNode * p = t;
+
 	int i = 0;
 	while (token != RBRACE)
+	{
+		/*TreeNode *  q;
+		q = */
 		t->child[i++] = statement();
+	}	
 	return t;
 }
 
@@ -521,11 +532,26 @@ TreeNode * args(void)
 TreeNode * arg_list(void)
 {
 	TreeNode * t = newStmtNode(ArgsK);
+	TreeNode * p = t;
 	int i = 0;
 	t->child[i] = expression();
+	/*TreeNode * q;
+	q = expression();*/
 	while (token == COMMA)
 	{
 		match(COMMA);
+		//TreeNode * q;
+		
+		/*if (q != NULL)
+		{
+			if (t == NULL) t = p = q;
+			else
+			{
+				p->sibling = q;
+				p = q;
+			}
+		}
+		q = expression();*/
 		t->child[++i] = expression();
 	}
 	return t;
