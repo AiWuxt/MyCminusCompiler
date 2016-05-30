@@ -240,7 +240,6 @@ TokenType getToken(void)
 			state = DONE;
 			currentToken = ERROR;
 			break;
-			break;
 		}
 		if ((save) && (tokenStringIndex <= MAXTOKENLEN))
 			tokenString[tokenStringIndex++] = c;
