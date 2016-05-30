@@ -8,7 +8,7 @@
 #define _UTIL_H_
 
 #pragma warning(disable:4996)
-
+#include<exception>
 /* Procedure printToken prints a token
  	and its lexeme to the listing file*/
 void printToken(TokenType, const char*);
