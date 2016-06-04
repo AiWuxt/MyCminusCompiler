@@ -107,16 +107,16 @@ TreeNode * declaration_list(void)
 
 TreeNode * declaration(void)
 {
-	TreeNode * t = var_declaration();
+	TreeNode * t = fun_declaration();
 	return t;
 }
 
-/*TreeNode * fun_declaration(void)
+TreeNode * fun_declaration(void)
 {
 	TreeNode * t = NULL;
-	if (token == INT || token == VOID)
+	if (token==INT || token == VOID)
 	{
-		t = newStmtNode(FunDecK);
+		t = newStmtNode(VarDecK);
 		if (token == INT)
 			t->type = Integer;
 		else
@@ -137,28 +137,46 @@ TreeNode * declaration(void)
 		}
 		if (token == LPAREN)
 		{
-			match(LPAREN);
-			t->child[1] = params();
-			match(RPAREN);
-			t->child[2] = compound_stmt();
+			TreeNode * func = newStmtNode(FunDecK);
+			func->type = t->type;
+			func->child[0] = t->child[0];
+			if (token == LPAREN)
+			{
+				match(LPAREN);
+				func->child[1] = params();
+				match(RPAREN);
+				func->child[2] = compound_stmt();
+			}
+			return func;
 		}
 		else
-			return NULL;
+		{
+			if ((token == LBARCK))
+			{
+				match(LBARCK);
+				TreeNode * q = newExpNode(ConstK);
+				if ((q != NULL) && (token == NUM))
+					q->attr.val = atoi(tokenString);
+				p->child[1] = q;
+				match(NUM);
+				match(RBARCK);
+			}
+			match(SEMI);
+		}
 	}
 	return t;
-}*/
+}
 
 TreeNode * params(void)
 {
 	TreeNode * t = newStmtNode(ParamsK);
-	if (token == VOID)
-	{
-		t->type = Void;
-		match(VOID);
-		return t;
-	}
-	else
-		t = param_list();
+	t = param_list();
+	/**
+	
+	
+	VOID !!!!!!!!!!!!
+	
+	**/
 	return t;
 }
 
@@ -252,21 +270,7 @@ TreeNode * var_declaration(void)
 			printToken(token, tokenString);
 			token = getToken();
 		}
-		if (token == LPAREN)
-		{
-			TreeNode * func = newStmtNode(FunDecK);
-			func->type = t->type;
-			func->child[0] = t->child[0];
-			if (token == LPAREN)
-			{
-				match(LPAREN);
-				func->child[1] = params();
-				match(RPAREN);
-				func->child[2] = compound_stmt();
-			}
-			return func;
-		}
-		else if ((token == LBARCK))
+		if ((token == LBARCK))
 		{
 			match(LBARCK);
 			TreeNode * q = newExpNode(ConstK);
@@ -276,10 +280,7 @@ TreeNode * var_declaration(void)
 			match(NUM);
 			match(RBARCK);
 		}
-		if (token == SEMI)
-			match(SEMI);
-		else
-			return NULL;
+		match(SEMI);
 	}
 	return t;
 }
