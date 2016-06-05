@@ -169,20 +169,19 @@ TreeNode * fun_declaration(void)
 
 TreeNode * params(void)
 {
-	TreeNode * t = newStmtNode(ParamsK);
-	t = param_list();
-	/**
-	
-	
-	VOID !!!!!!!!!!!!
-	
-	**/
+	TreeNode * t = param_list();
 	return t;
 }
 
 TreeNode * param_list(void)
 {
 	TreeNode * t = param();
+	if (t == NULL)
+	{
+		t = newStmtNode(ParamK);
+		t->type = Void;
+		return t;
+	}
 	TreeNode * p = t;
 	while (token==COMMA)
 	{
@@ -212,6 +211,10 @@ TreeNode * param(void)
 		else
 			t->type = Void;
 		match(token);
+		if (lastToken == VOID && token == RPAREN)
+		{
+			return NULL;
+		}
 		TreeNode * p = newExpNode(IdK);
 		if ((p != NULL) && (token == ID))
 		{
@@ -230,6 +233,12 @@ TreeNode * param(void)
 			}
 			match(RBARCK);
 		}
+	}
+	else
+	{
+		syntaxError("unexpected token -> ");
+		printToken(token, tokenString);
+		token = getToken();
 	}
 	return t;
 }
@@ -342,10 +351,15 @@ TreeNode * statement(void)
 	case RETURN:
 		t = return_stmt();
 		break;
-	case RBRACE:
+	case ID:
+	case LPAREN:
+	case NUM:
+		t = expession_stmt();
 		break;
 	default:
-		t = expession_stmt();
+		syntaxError("unexpected token -> ");
+		printToken(token, tokenString);
+		token = getToken();
 		break;
 	}
 	return t;
