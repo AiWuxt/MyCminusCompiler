@@ -172,7 +172,7 @@ TokenType getToken(void)
 			if (c == '/')
 				state = START;
 			else
-				state = INCOMMEND2;
+				state = INCOMMEND1;
 			break;
 		case INLE:
 			state = DONE;
