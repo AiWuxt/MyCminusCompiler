@@ -203,9 +203,10 @@ TreeNode * param_list(void)
 
 TreeNode * param(void)
 {
-	TreeNode * t = newStmtNode(ParamK);
+	TreeNode * t = NULL;
 	if ((token == INT) || (token == VOID))
 	{
+		t = newStmtNode(ParamK);
 		if (token == INT)
 			t->type = Integer;
 		else
@@ -317,8 +318,14 @@ TreeNode * statement_list(void)
 {
 	TreeNode * t = statement();
 	TreeNode * p = t;
-	while (token != RBRACE)
+	while (token != RBRACE)	
 	{
+		if (token == ENDFILE)
+		{
+			syntaxError("unexpected token -> ");
+			printToken(token, tokenString);
+			break;
+		}
 		TreeNode *  q;
 		q = statement();
 		if (q != NULL)
@@ -564,8 +571,6 @@ TreeNode * arg_list(void)
 {
 	TreeNode * t = newStmtNode(ArgsK);
 	TreeNode * p = t;
-	int i = 0;
-	//t->child[i] = expression();
 	TreeNode * q = expression();
 	while (token == COMMA)
 	{
