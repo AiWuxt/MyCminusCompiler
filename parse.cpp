@@ -211,11 +211,14 @@ TreeNode * param(void)
 			t->type = Integer;
 		else
 			t->type = Void;
-		match(token);
-		if (lastToken == VOID && token == RPAREN)
+		if (lastToken == LPAREN && token == VOID)
 		{
-			return NULL;
+			match(token);
+			if (lastToken == VOID && token == RPAREN)
+				return NULL;
 		}
+		else
+			match(token);
 		TreeNode * p = newExpNode(IdK);
 		if ((p != NULL) && (token == ID))
 		{
