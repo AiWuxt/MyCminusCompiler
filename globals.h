@@ -45,7 +45,7 @@ typedef enum ExpKind {OpK, ConstK, IdK};
 /* ExpType is used for type checking */
 typedef enum ExpType {Void, Integer, UNDEFINED};
 
-static const char * EXPTYPE[] = { "Void", "Int", "Undefined"};
+static const char * EXPTYPE[] = { "VOID", "Int", "Undefined"};
 
 #define MAXCHILDREN 3
 
