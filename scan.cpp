@@ -10,9 +10,9 @@
 
 typedef enum
 {
-	START, INLE, INGE, INEQ, INUEQ, INCOMMSTART, INCOMMEND1,
-	INCOMMEND2, INNUM, INID, DONE
-} StateType;
+	START, INLE, INGE, INEQ, INUEQ, INCOMMSTART, INCOMMMID,
+	INCOMMEND, INNUM, INID, DONE
+} StateType;	
 
 char tokenString[MAXTOKENLEN + 1];
 
@@ -93,10 +93,7 @@ TokenType getToken(void)
 			else if (c == '<')
 				state = INLE;
 			else if (c == '>')
-			{
-				save = false;
 				state = INGE;
-			}
 			else if (c == '=')
 				state = INEQ;
 			else if (c == '!')
@@ -153,7 +150,7 @@ TokenType getToken(void)
 			if (c == '*')
 			{
 				save = false;
-				state = INCOMMEND1;
+				state = INCOMMMID;
 			}
 			else
 			{
@@ -162,17 +159,17 @@ TokenType getToken(void)
 				currentToken = DIVIDE;
 			}
 			break;
-		case INCOMMEND1:
+		case INCOMMMID:
 			save = false;
 			if (c == '*')
-				state = INCOMMEND2;
+				state = INCOMMEND;
 			break;
-		case INCOMMEND2:
+		case INCOMMEND:
 			save = false;
 			if (c == '/')
 				state = START;
 			else
-				state = INCOMMEND1;
+				state = INCOMMMID;
 			break;
 		case INLE:
 			state = DONE;
